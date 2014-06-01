@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body bgcolor="white">
+<p> 
+Proxy JDBC driver that allows JMX view into JDBC connection content and tracks
+SQL statement performance.
+</p>
+
+<p>This JDBC driver will do the following:</p>
+<li>Automatically time all SQL Statement executions.  The top 50 Statements 
+(by default) are browsable via the SqlDisplayServlet.  This is configurable 
+(see net.admin4j.config.PropertyConfigurator)</li>
+<li>Connection activity is also viewable via JMX or via the JmxServlet.</li>
+
+<p>Depending on the runtime version of Java you're using, the specific driver class to
+use is the following (all package net.admin4j.jdbc.driver):</p>
+<li>Java V1.5x - Admin4jJdbcDriverJdk5</li>
+<li>Java V1.6x - Admin4jJdbcDriverJdk5</li>
+<li>Java V1.7x - Admin4jJdbcDriverJdk7</li>
+
+<p>The connection URL for this driver is in the following format:</p>
+<pre>
+        jdbcx:admin4j:[admin4J properties]::[underlying driver URL]
+</pre>
+<p>For example:</p>
+<pre>
+        jdbcx:admin4j:driver=org.hsqldb.jdbcDriver,poolName=mainPoolDB::jdbc:hsqldb:mem:Admin4JTestDb
+</pre>
+
+<p>Supported Admin4J driver properties are the following:</p>
+<li>driver - Required.  Class name of the underlying JDBC driver</li>
+<li>poolName - Optional.  Default none.  Name of the connection pool to which this driver is being assigned.  
+This is displayed with performance metrics.</li>
+<li>stackTrace - Optional (true/false).  Default true.  Specifies if execution stack traces are tracked so you know where
+in your code a SQL statement is being executed.  Tests show setting to false will save 
+approximately 1 millisecond per seven SQL Statement executions.</li>
+
+<p>This driver honors the following configuration settings (see net.admin4j.config.PropertyConfigurator):</p>
+<li>sql.nbr.retained.sql.statements</li>
+<li>sql.retention.time.in.millis</li>
+</body>
+</html>

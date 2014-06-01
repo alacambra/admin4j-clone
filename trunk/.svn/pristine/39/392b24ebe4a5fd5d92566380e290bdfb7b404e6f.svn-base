@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+</head>
+<body bgcolor="white">
+<p>
+This package contains dependency classes for Admin4J.  The contents of this
+package contains open source software that Admin4J uses, but did not create.
+</p>
+
+<p>
+You may notice that we have changed/refactored the package name for all of the 
+the products we use.  This is a Win/Win.  It's a win for users as the don't have 
+to worry about possible class conflicts between what Admin4J uses and what their 
+application may or may not already use.  It's a win for us in that we don't
+have to worry about possible differences between the versions of these products 
+that you use and the versions we tested and developed with.  
+</p>
+</body>
+</html>

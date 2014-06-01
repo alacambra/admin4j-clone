@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2002-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+	<header>
+		<title>SQL Statement Performance Measurement</title>
+		<notice>Copyright © 2012, by The Admin4J Project, all rights reserved.</notice>
+	</header>
+	<body>
+	
+		<section>
+			<title>Measuring application SQL Statement performance</title>
+							
+				<p>The Admin4J JDBC driver acts as a proxy for the database specific driver that you're using.
+					It passes through all of your statements and operations, but it records SQL statement performance
+					time along the way.</p>
+
+				<p>Admin4J provides a SQL Performance display servlet where you can view the top 50 (the number is configurable)
+					most resource intensive SQL statements.  Needless to say, this performance display servlet only works
+					properly if you've installed the Admin4J JDBC driver.</p>
+				<p>Connection activity is also viewable via JMX or via the JmxServlet.</p>
+
+		</section>
+		
+		<section>
+			<title>Screen Shots</title>
+			<figure src="sql-display-fullsize.JPG" alt="Admin4J SQL Performance Statistics shot" id="sql-performance-statistics-shot" width="960" height="527"/>
+		</section>
+							  
+		<section>
+				<title>Installing SQL Statement Monitoring</title>
+				
+				<p>Depending on the runtime version of Java you're using, the specific driver class to
+use is the following (all package net.admin4j.jdbc.driver):</p>
+					<table>
+						<tr>
+							<th>JDK Version</th>
+							<th>Admin4J JDBC Driver Class</th>
+						 </tr>
+						 <tr>
+							<td>Java V1.5x</td>
+							<td>net.admin4j.jdbc.driver.Admin4jJdbcDriverJdk5</td>
+						 </tr>
+						 <tr>
+							<td>Java V1.6x</td>
+							<td>net.admin4j.jdbc.driver.Admin4jJdbcDriverJdk5</td>
+						 </tr>
+						 <tr>
+							<td>Java V1.7x</td>
+							<td>net.admin4j.jdbc.driver.Admin4jJdbcDriverJdk7</td>
+						 </tr>
+						 <tr>
+							<td>Java V1.8x</td>
+							<td>net.admin4j.jdbc.driver.Admin4jJdbcDriverJdk7 (Requires Admin4J 1.0.3-rc1 or above)</td>
+						 </tr>
+					</table>
+
+				<p>The connection URL for this driver is in the following format:</p>
+				<source><![CDATA[
+jdbcx:admin4j:[admin4J properties]::[underlying driver URL]
+				]]></source>
+				<p>For example:</p>
+				<source><![CDATA[
+jdbcx:admin4j:driver=org.hsqldb.jdbcDriver,poolName=mainPoolDB::jdbc:hsqldb:mem:Admin4JTestDb
+				]]></source>
+
+				<p>Supported Admin4J driver properties are the following:</p>
+					 <table>
+						<tr>
+							<th>Parameter</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+					 	</tr>
+					 	<tr>
+							<td>driver</td>
+							<td>Y</td>
+							<td>n/a</td>
+							<td>Class name of the underlying JDBC driver</td>					 
+					 	</tr>
+					 	<tr>
+							<td>poolName</td>
+							<td>N</td>
+							<td>none</td>
+							<td>Name of the connection pool to which this driver is being assigned.  
+								This is displayed with performance metrics.</td>					 
+					 	</tr>
+					 	<tr>
+							<td>stackTrace</td>
+							<td>N (true/false)</td>
+							<td>true</td>
+							<td>Specifies if execution stack traces are tracked so you know where
+								in your code a SQL statement is being executed.  Tests show setting to false will save 
+								approximately 1 millisecond per seven SQL Statement executions.</td>					 
+					 	</tr>
+					</table>
+				<p>This driver honors the following configuration settings (see net.admin4j.config.PropertyConfigurator):</p>
+					<table>
+						<tr>
+							<th>Parameter</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+						</tr>
+						<tr>
+							<td>sql.nbr.retained.sql.statements</td>
+							<td>N</td>
+							<td>50</td>
+							<td>Number of top resource intensive SQL statements retained.</td>					 
+					 	</tr>
+					 	<tr>
+							<td>sql.retention.time.in.millis</td>
+							<td>N</td>
+							<td>6 Hrs</td>
+							<td>Maximum time SQL statements are retained since last executed.</td>					 
+					 	</tr>
+					 </table>
+</section>
+
+<section>
+						<title>Installing SQL Metrics Display</title>
+						
+						<note>If you followed the installation procedure detailed in the <a href="getting-started.html">Getting Started</a>
+							section, there is no need to install the SQL Metrics Display separately.  Only follow this procedure if you're
+						   	not using the Admin4J Home Page Servlet.</note>
+
+						<p>Add the following servlet and servlet mapping to your applications web.xml:</p>
+													<source><![CDATA[
+		<servlet>
+			<servlet-name>SQL Display Servlet</servlet-name>
+			<servlet-class>net.admin4j.ui.servlets.SqlDisplayServlet</servlet-class>
+			<load-on-startup>1</load-on-startup>
+		</servlet>
+
+		<servlet-mapping>
+			<servlet-name>SQL Display Servlet</servlet-name>
+			<url-pattern>/admin4j/sql</url-pattern>
+		</servlet-mapping>
+						]]></source>
+
+						<note>You might want to define a security constraint on the mapping to this servlet if
+								 you only want to provide display access to administrators and support personnel.</note>
+</section>
+					
+		
+	
+	</body>
+	<footer>
+		<legal>Copyright © 2012, by The Admin4J Project, all rights reserved.</legal>
+	</footer>
+</document>

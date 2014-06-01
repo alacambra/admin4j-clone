@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2002-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+	<header>
+		<title>Logger Management</title>
+		<notice>Copyright © 2010, by The Admin4J Project, all rights reserved.</notice>
+	</header>
+	<body>
+	
+		<section>
+							<title>Changing the Log Level for applications at runtime</title>
+							
+							<p>Admin4J allows you to change logger reporting levels at runtime.  The advantages are the
+							   following:</p>
+							   
+							<p>Putting a logger in DEBUG no longer requires a container recycle.</p>
+							<p>Many shops put bureacracy in front of container configuration changes in production.  This
+							  administrative servlet can be safely made available to support developers in all environments.</p>
+							  
+							<section>
+											<title>Screen Shots</title>
+											<figure src="log-management-fullsize.JPG" alt="Admin4J Log Management Screen shot" id="log-mgmt-shot" width="960" height="527"/>
+							</section>
+							  
+							<section>
+										<title>Installing Log Level administration tool</title>
+										
+										<note>If you followed the installation procedure detailed in the <a href="getting-started.html">Getting Started</a>
+												section, there is no need to install the Log Level Administration tool separately.  Only follow this procedure if you're
+						 						not using the Admin4J Home Page Servlet.</note>
+														
+										<p>Add the following servlet and servlet mapping to your applications web.xml:</p>
+																					<source><![CDATA[
+<servlet>
+		<servlet-name>LogLevel Servlet</servlet-name>
+		<servlet-class>net.admin4j.ui.servlets.LogLevelServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+</servlet>
+<servlet-mapping>
+		<servlet-name>LogLevel Servlet</servlet-name>
+		<url-pattern>/admin4j/logLevel</url-pattern>
+</servlet-mapping>
+														]]></source>
+							</section>
+		</section>
+	
+	</body>
+	<footer>
+		<legal>Copyright © 2010, by The Admin4J Project, all rights reserved.</legal>
+	</footer>
+</document>

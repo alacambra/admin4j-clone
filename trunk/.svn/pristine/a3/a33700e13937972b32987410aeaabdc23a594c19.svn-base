@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2002-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+	<header>
+		<title>Hot Spot Utility</title>
+		<notice>Copyright © 2010, by The Admin4J Project, all rights reserved.</notice>
+	</header>
+	<body>
+	
+		<section>
+							<title>What is HotSpot?</title>
+							
+							<p>HotSpot will examine thread dumps and collect data on all threads in a "Running" or "Blocked" state.
+							   HotSpot collects thread dumps to examine on a configured interval (default is 30 seconds).  HotSpot
+							   will summarize the information it collects on demand via a servlet display.</p>
+								
+							<p><strong>Why would I use HotSpot instead of a profler?</strong>  Good question.  HotSpot operates the 
+							   same way many profilers do, but with a much longer interval between observations.  HotSpot will 
+							   <strong>not</strong> replace your profiler.  Profilers are great when you have already identified the process
+							   that requires tuning.  <strong>HotSpot helps you identify that process.</strong></p>
+							   
+							<p><strong>Wouldn't running a profiler on a load test give me the same information?</strong>  No.  Load tests
+							   are scripted.  That means that they are constructed to emulate specific user activities.  Which user activities
+							   are scripted?  Well, sometimes developers are working on specific information, but more often than not they
+							   are making assumptions about the most widely used features of their application.  HotSpot allows you <strong>not</strong> to
+							   have to "guess" or "make assumptions" about which parts of applications are most frequently executed.  HotSpot can
+							   tell you actually what is most frequently executed in a production environment.</p>
+							   
+							<p><strong>Is HotSpot safe to use in a production environment?</strong>  Yes.  Hotspot can safely be used in 
+							  production environments.  Furthermore, you control how intrusive HotSpot is by manipulating the length of the
+							  work/sleep cycle it uses.  The default of 30 seconds was determined by experimenting with different settings 
+							  on a production application (it's what the writers of this utility most frequently use).</p>
+		
+							<p>The HotSpot monitor operates on a work/sleep cycle.  The length of the 'sleep' cycle
+							  is configurable.</p>
+		</section>
+		
+		<section>
+				<title>Screen Shots</title>
+				<figure src="hotspot-halfsize.JPG" alt="Admin4J Hot Spot Screen shot" id="hotspot-screen-shot" width="960" height="527"/>
+		</section>
+							  
+		<section>
+				<title>Installing the Hot Spot Utility</title>
+				
+				<note>If you followed the installation procedure detailed in the <a href="getting-started.html">Getting Started</a>
+						 section, there is no need to install HotSpot separately.  Only follow this procedure if you're
+						 not using the Admin4J Home Page Servlet.</note>
+
+				<p>Add the following servlet to your applications web.xml:</p>
+				<source><![CDATA[
+<servlet>
+<servlet-name>Hot Spot Display Servlet</servlet-name>
+<servlet-class>net.admin4j.ui.servlets.HotSpotDisplayServlet</servlet-class>
+<load-on-startup>1</load-on-startup>
+</servlet>
+
+<servlet-mapping>
+<servlet-name>Hot Spot Display Servlet</servlet-name>
+<url-pattern>/admin4j/hotSpot</url-pattern>
+</servlet-mapping>
+				]]></source>
+
+				<p>The following configuration parameters are supported for HotSpot.  You specify
+					 these parameters as init parameters on the display servlet:</p>
+					 <table>
+						<tr>
+							<th>Parameter</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+					 </tr>
+					 <tr>
+							<td>sleep.interval.millis</td>
+							<td>N</td>
+							<td>Default 30000 (30 sec)</td>
+							<td>Amount of time in millis monitor will sleep between checks.</td>					 
+					 </tr>
+					</table>
+
+</section>
+
+<section>
+				<title>HotSpot Utility usage in containers servicing multiple applications.</title>
+
+				<p>You only need one Hotspot monitor per JVM.  If the container you which to monitor services
+					 multiple applications, it's on necessary to install the HotSpot monitor startup servlet in one of 
+					 those applications.</p>
+
+</section>
+	
+	</body>
+	<footer>
+		<legal>Copyright © 2010, by The Admin4J Project, all rights reserved.</legal>
+	</footer>
+</document>

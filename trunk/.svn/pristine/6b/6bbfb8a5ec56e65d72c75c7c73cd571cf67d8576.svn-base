@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2002-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+	<header>
+		<title>Unexpected Load Alerts</title>
+		<notice>Copyright © 2010, by The Admin4J Project, all rights reserved.</notice>
+	</header>
+	<body>
+	
+		<section>
+							<title>Unexpected Load Alerts</title>
+							
+							<p>Often, administrators want to be alerted during periods of unexpected high load 
+							   as it is often a precursor to other problems (e.g. memory issues or thread contention issues). Admin4J
+							   sends out alerts at configurable threshold levels.  These alerts will contain a thread dump. this thread dump will provide insight into contention issues and also allow you to identify performance hot spots. You'll also get a notice when
+							   load returns to normal.</p>
+		</section>
+				
+		<section>
+				<title>Installing Unexpected Load Alerts</title>
+				
+				<note>If you followed the installation procedure detailed in the <a href="getting-started.html">Getting Started</a>
+							section, there is no need to install the Unexpected Load Alerts page separately.  Only follow this procedure if you're
+						 	not using the Admin4J Home Page Servlet.</note>
+
+				<p>Add the following filter and filter mapping to your applications web.xml:</p>
+											<source><![CDATA[
+<filter>
+	<filter-name>Concurrent Usage Filter</filter-name>
+	<filter-class>
+		net.admin4j.ui.filters.ConcurrentUsageFilter
+	</filter-class>
+	<init-param>
+		<description>Specifies alert thresholds.</description>
+		<param-name>alert.levels</param-name>
+		<param-value>100,200,300</param-value>
+	</init-param>
+</filter>
+
+<filter-mapping>
+	<filter-name>Concurrent Usage Filter</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
+				]]></source>
+
+				<p>The following configuration parameters are supported for the performance tracking filter.</p>
+					 <table>
+						<tr>
+							<th>Parameter</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+					 </tr>
+					 <tr>
+							<td>sleep.interval.millis</td>
+							<td>N</td>
+							<td>30000</td>
+							<td>Amount of time in millis monitor will sleep between checks.</td>					 
+					 </tr>
+					 <tr>
+							<td>alert.levels</td>
+							<td>N</td>
+							<td>100</td>
+							<td>Comma-delimited list of threshold levels for which notices will be sent.  Example: 10,50,100</td>					 
+ 					</tr>
+					 <tr>
+							<td>notifier</td>
+							<td>N</td>
+							<td>Defaults to default.notifier.class value in the Admin4J configuration.</td>
+							<td>Handles admin notification.  See documentation for the Notifier you're using
+									for any additional configuration requirements. See Admin4J Notifiers section
+									for more detail.</td>					 
+					 </tr>
+					</table>
+		
+
+		</section>
+	
+	</body>
+	<footer>
+		<legal>Copyright © 2010, by The Admin4J Project, all rights reserved.</legal>
+	</footer>
+</document>

@@ -1,0 +1,244 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2002-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+	<header>
+		<title>Exception Management</title>
+		<notice>Copyright © 2010, by The Admin4J Project, all rights reserved.</notice>
+	</header>
+	<body>
+	
+		<section>
+					<title>Tracking and summarizing application exceptions</title>
+					
+					<p>Admin4J tracks all logged exceptions and combines and summarizes all 'like' exceptions.  Currently,
+					   exceptions logged with Log4J and JDK Logging are tracked.  Additional loggers will be added as
+					   user demand dictates.</p>
+					   
+					<p>Display Features</p>
+					<p>Exceptions sorted from the most frequent occurring to the least.</p>
+					<p>Exceptions are persisted and survive a container recycle.</p>
+					<p>Administrators can delete exceptions that they deem dated and no longer occurring.</p>
+					<p>The length of time covered by exception statistics is configurable (defaults to 72 hours).</p>
+					   
+					<section>
+											<title>Screen Shots</title>
+											<figure src="exception-summary-75Pctsize.JPG" alt="Admin4J Exception Summary Screen shot" id="exception-summary-shot" width="960" height="527"/>
+					</section>
+					<section>
+									<title>Installing Exception Tracking and Display</title>
+									
+									<note>If you followed the installation procedure detailed in the <a href="getting-started.html">Getting Started</a>
+											section, there is no need to install the Exception tracking tool separately.  Only follow this procedure if you're
+						 					not using the Admin4J Home Page Servlet.</note>
+									
+									<p>Add the following servlet and servlet mapping to your applications web.xml:</p>
+									<source><![CDATA[
+<servlet>
+		<servlet-name>Exception Display Servlet</servlet-name>
+		<servlet-class>net.admin4j.ui.servlets.ExceptionDisplayServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+</servlet>
+
+<servlet-mapping>
+		<servlet-name>Exception Display Servlet</servlet-name>
+		<url-pattern>/admin4j/error</url-pattern>
+</servlet-mapping>
+									]]></source>
+									
+									<p>Exception tracking is automatically installed when the display servlet is defined.  The following
+									   configuration parameters are supported on the Exception Display servlet:</p>
+										 <table>
+											<tr>
+												<th>Parameter</th>
+												<th>Required</th>
+												<th>Default</th>
+												<th>Description</th>
+										 </tr>
+										 <tr>
+										 		<td>tracking.time.in.days</td>
+												<td>N</td>
+												<td>30 days</td>
+												<td>Amount of time an occurance of an exception will be included in the exception statistics.</td>					 
+										 </tr>
+										 <tr>
+												<td>exempted.exception.types</td>
+												<td>N</td>
+												<td>none.</td>
+												<td>Comma delimited list of exception class names that will *not* be tracked.</td>					 
+										 </tr>
+										</table>
+																	
+										<note>Note that you might want to define a security constraint on the mapping to this servlet if
+										   you only want to provide display access to administrators and support personnel.</note>
+										
+										<warning label="Tip">For most applications, you can excempt java.net.SocketException.  For most Java EE applications, 
+										   these are caused by users closing the browser before a response is complete.  This is usually 
+										   not something support developers need to worry about.</warning>
+										
+										
+					</section>
+					
+					<section>
+									<title>Exception tracking in containers servicing multiple applications.</title>
+									
+									<p>Exception tracking works by adding itself as a log appender.  If the logging product is provided by the 
+									   system or common classload (used by all applications), there's a strong probability that one Exception Tracking 
+									   display will capture exceptions from <strong>all</strong> applications in the container. In this case,
+									   you might prefer to have only one instance of the Exception Tracking servlet defined in this situation.</p>
+									   
+					</section>
+					
+		</section>
+		
+		<section>
+							<title>Receiving notifications for errors received from Http requests</title>
+							
+							<p>Admin4J optionally provides notifications for Http request errors.</p>
+							
+							<section>
+														<title>Installing Http Request Error Notification</title>
+														
+														<p>Add the following filter and filter mapping to your applications web.xml:</p>
+																					<source><![CDATA[
+<filter>
+	<filter-name>Error Notification Filter</filter-name>
+	<filter-class>
+		net.admin4j.ui.filters.ErrorNotificationFilter
+	</filter-class>
+</filter>
+
+<filter-mapping>
+	<filter-name>Error Notification Filter</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
+														]]></source>
+														
+														<p>The following configuration parameters are supported for the error notification filter.</p>
+															 <table>
+																<tr>
+																	<th>Parameter</th>
+																	<th>Required</th>
+																	<th>Default</th>
+																	<th>Description</th>
+															 </tr>
+															 <tr>
+																	<td>notification.time.interval.millis</td>
+																	<td>N</td>
+																	<td>none.</td>
+																	<td>If specified, notification will be provided for 'like' errors 
+																		once per specified time period.</td>					 
+															 </tr>
+															 <tr>
+																	<td>exempted.exception.types</td>
+																	<td>N</td>
+																	<td>none.</td>
+																	<td>Comma delimited list of exception class names for which notification will *not* occur.</td>					 
+															 </tr>
+															 <tr>
+																	<td>notifier</td>
+																	<td>N</td>
+																	<td>Defaults to default.notifier.class value in the Admin4J configuration.</td>
+																	<td>Handles admin notification.  See documentation for the Notifier you're using
+																			for any additional configuration requirements. See Admin4J Notifiers section
+																			for more detail.</td>					 
+															 </tr>
+															</table>
+							</section>
+				</section>
+				
+				<section>
+							<title>Logging errors received from Http requests</title>
+							
+							<p>Admin4J optionally provides logging for Http request errors.</p>
+												
+							<section>
+										<title>Installing Http Request Error Logging</title>
+		
+										<p>Add the following filter and filter mapping to your applications web.xml:</p>
+																	<source><![CDATA[
+<filter>
+	<filter-name>Error Logging Filter</filter-name>
+	<filter-class>
+		net.admin4j.ui.filters.ErrorLoggingFilter
+	</filter-class>
+	<init-param>
+		<description>Specifies logger name.</description>
+		<param-name>logger</param-name>
+		<param-value>admin4j.webapp</param-value>
+	</init-param>
+</filter>
+										]]></source>
+		
+										<p>The following configuration parameters are supported for the error logging filter.</p>
+											 <table>
+												<tr>
+													<th>Parameter</th>
+													<th>Required</th>
+													<th>Default</th>
+													<th>Description</th>
+											 </tr>
+											 <tr>
+													<td>logger</td>
+													<td>N</td>
+													<td>net.admin4j.ui.filters.ErrorLoggingFilter</td>
+													<td>Specifies the logger name used.</td>					 
+											 </tr>
+											</table>
+							</section>
+							
+							<section>
+										<title>Installing Http Request History Tracking</title>
+		
+										<p>Add the following filter and filter mapping to your applications web.xml:</p>
+																	<source><![CDATA[
+<filter>
+	<filter-name>Request Tracking Filter</filter-name>
+	<filter-class>
+		net.admin4j.ui.filters.RequestTrackingFilter
+	</filter-class>
+	<init-param>
+		<description>Specifies the number of requests tracked.</description>
+		<param-name>nbr.requests.tracked</param-name>
+		<param-value>10</param-value>
+	</init-param>
+</filter>
+										]]></source>
+		
+										<p>The following configuration parameters are supported for the request tracking filter.</p>
+											 <table>
+												<tr>
+													<th>Parameter</th>
+													<th>Required</th>
+													<th>Default</th>
+													<th>Description</th>
+											 </tr>
+											 <tr>
+													<td>nbr.requests.tracked</td>
+													<td>N</td>
+													<td>5</td>
+													<td>Specifies the number of requests tracked.</td>					 
+											 </tr>
+											</table>
+							</section>
+		</section>
+	
+	</body>
+	<footer>
+		<legal>Copyright © 2010, by The Admin4J Project, all rights reserved.</legal>
+	</footer>
+</document>

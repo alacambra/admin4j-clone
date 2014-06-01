@@ -1,0 +1,18 @@
+This file is where we document useful notes for Admin4J developers.
+
+Currently, this project is organized to use a JDK 1.7.  The following folders should be defined
+as 'source' folders in your IDE:
+src
+test
+
+While the following contain java source, they should *not* be declared source folders as they require 
+compilation under a different JDK:
+jdbc30
+jdbc40
+jdbc42
+
+Markup for the presentation layer can be found in folder 'ftl' (yes - we use Freemarker).
+
+When you first set up your project, you *will* show compile errors until you run the build and place a copy 
+of the admin4j-commons.jar in your classpath.  This jar contains Admin4J dependencies that are slightly
+'refactored' to reside in different packages.

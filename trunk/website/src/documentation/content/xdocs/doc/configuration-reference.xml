@@ -1,0 +1,308 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2002-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+	<header>
+		<title>Admin4J Configuration Reference</title>
+		<notice>Copyright © 2010, by The Admin4J Project, all rights reserved.</notice>
+	</header>
+	<body>
+	
+		<section>
+				<title>Admin4J Configuration Properties.</title>
+				
+				<section>
+								<title>Exception Tracking properties.</title>
+											
+								<table>
+										<tr>
+											<th>Parameter</th>
+											<th>Required</th>
+											<th>Options</th>
+											<th>Default</th>
+											<th>Description</th>
+									 </tr>
+									 <tr>
+										  <td>exception.info.storage.format</td>
+										  <td>N</td>
+										  <td>xml</td>
+										  <td></td>
+										  <td>Specifies the format used to store tracked exceptions and exception statistics.</td>
+									 </tr>
+									 <tr>
+											<td>exception.info.xml.file</td>
+											<td>N</td>
+											<td></td>
+											<td>null</td>
+											<td>Specifies a fully-qualified or relative file location for exception tracking information.</td>
+									 </tr>
+									 <tr>
+											<td>exception.tracking.time.in.days</td>
+											<td>N</td>
+											<td></td>
+											<td>30 days</td>
+											<td>Amount of time an occurance of an exception will be included in the exception statistics.</td>					 
+									 </tr>
+									 <tr>
+											<td>exception.exempted.exception.types</td>
+											<td>N</td>
+											<td></td>
+											<td>none.</td>
+											<td>Comma delimited list of exception class names that will *not* be tracked.</td>					 
+									 </tr>
+									 <tr>
+											<td>error.notification.time.interval.millis</td>
+											<td>N</td>
+											<td></td>
+											<td>none.</td>
+											<td>If set, web transaction errors of the same type will be surpressed for the given time period.</td>					 
+									 </tr>
+									 <tr>
+											<td>error.exempted.exception.types</td>
+											<td>N</td>
+											<td></td>
+											<td>none.</td>
+											<td>Comma delimited list specifying exception classes that will not result in notification for web transactions.</td>					 
+								 	 </tr>
+								</table>
+				</section>
+				
+				<section>
+							<title>Performance Tracking properties.</title>
+
+							<table>
+									<tr>
+										<th>Parameter</th>
+										<th>Required</th>
+										<th>Options</th>
+										<th>Default</th>
+										<th>Description</th>
+								 </tr>
+								 <tr>
+										<td>performance.info.storage.format</td>
+										<td>N</td>
+										<td>xml</td>
+										<td></td>
+										<td>Specifies the format used to store performance statistics.</td>
+								 </tr>
+								 <tr>
+										<td>performance.info.xml.file</td>
+										<td>N</td>
+										<td></td>
+										<td>null</td>
+										<td>Specifies a fully-qualified or relative file location for performance statistics.</td>
+								 </tr>
+								 <tr>
+										<td>web.transaction.performance.notification.threshold.in.millis</td>
+										<td>N</td>
+										<td></td>
+										<td></td>
+										<td>If set, web transactions with execution time greater than or equal to this setting will result in notification.</td>
+								 </tr>
+							</table>
+				</section>
+				
+				<section>
+							<title>Thread contention, memory monitor, and unexpected load alert properties.</title>
+
+							<table>
+								<tr>
+										<th>Parameter</th>
+										<th>Required</th>
+										<th>Options</th>
+										<th>Default</th>
+										<th>Description</th>
+								 </tr>
+								 <tr>
+										<td>memory.sleep.interval.millis</td>
+										<td>N</td>
+										<td></td>
+										<td>30000</td>
+										<td>Length of Memory monitor sleep interval in milliseconds.</td>
+								 </tr>
+								 <tr>
+										<td>memory.threshold.pct</td>
+										<td>N</td>
+										<td></td>
+										<td>90</td>
+										<td>Percent memory usage required to trigger a notification.</td>
+								 </tr>
+								 <tr>
+										<td>memory.nbr.intervals.between.warnings</td>
+										<td>N</td>
+										<td></td>
+										<td>30</td>
+										<td>Number of intervals between notifications should the memory problem persist.</td>
+								 </tr>
+								 <tr>
+										<td>memory.nbr.low.watermark.intervals</td>
+										<td>N</td>
+										<td></td>
+										<td>48</td>
+										<td>Number of low watermark observations reported with a low memory notice.</td>
+								 </tr>
+								 <tr>
+										<td>memory.low.watermark.monitor.interval.millis</td>
+										<td>N</td>
+										<td></td>
+										<td>1800000</td>
+										<td>Number of Millis between low watermark observations.</td>
+								 </tr>
+								 <tr>
+										<td>thread.sleep.interval.millis</td>
+										<td>N</td>
+										<td></td>
+										<td>30000</td>
+										<td>Length of Thread monitor sleep interval in milliseconds.</td>
+								 </tr>
+								 <tr>
+										<td>thread.max.blocked.threads</td>
+										<td>N</td>
+										<td></td>
+										<td>2</td>
+										<td>Number of blocked threads needed to trigger notification.</td>
+								 </tr>
+								 <tr>
+										<td>usage.sleep.interval.millis</td>
+										<td>N</td>
+										<td></td>
+										<td>30000</td>
+										<td>Amount of time in millis monitor will sleep between checks.</td>
+								 </tr>
+								 <tr>
+										<td>usage.alert.levels</td>
+										<td>N</td>
+										<td></td>
+										<td>100</td>
+										<td>Comma-delimited list of threshold levels for which notices will be sent.  Example: 10,50,100.</td>
+								 </tr>
+							</table>
+				</section>
+				
+				<section>
+							<title>File Explorer properties.</title>
+
+							<table>
+									<tr>
+										<th>Parameter</th>
+										<th>Required</th>
+										<th>Options</th>
+										<th>Default</th>
+										<th>Description</th>
+								 </tr>
+								 <tr>
+										<td>file.explorer.restrict.to.base.dir</td>
+										<td>N</td>
+										<td>true/false</td>
+										<td>true</td>
+										<td>If true, file exploring will be restricted to the base directory and its subdirectories.</td>
+								 </tr>
+								 <tr>
+										<td>file.explorer.restrict.from.exec</td>
+										<td>N</td>
+										<td>true/false</td>
+										<td>true</td>
+										<td>If true, file exploring will not permit execution of those files that are executable.</td>
+								 </tr>
+								 <tr>
+										<td>file.explorer.restrict.from.write</td>
+										<td>N</td>
+										<td>true/false</td>
+										<td>true</td>
+										<td>If true, file exploring will not allow file uploads.</td>
+								 </tr>
+								 <tr>
+										<td>file.explorer.base.dir.name</td>
+										<td>N</td>
+										<td></td>
+										<td>user.dir system property value</td>
+										<td>Specifies the directory that will originate file exploring.</td>
+								 </tr>
+							</table>
+				</section>
+				
+				<section>
+							<title>SQL Performance properties.</title>
+
+							<table>
+								<tr>
+									<th>Parameter</th>
+									<th>Required</th>
+									<th>Options</th>
+									<th>Default</th>
+									<th>Description</th>
+								 </tr>
+								 <tr>
+									<td>sql.nbr.retained.sql.statements</td>
+									<td>N</td>
+									<td></td>
+									<td>50</td>
+									<td>Number of top resource intensive SQL statements retained.</td>					 
+								</tr>
+								<tr>
+									<td>sql.retention.time.in.millis</td>
+									<td>N</td>
+									<td></td>
+									<td>6 Hrs</td>
+									<td>Maximum time SQL statements are retained since last executed.</td>					 
+					 			</tr>
+							</table>
+				</section>
+				
+				<section>
+							<title>Miscellaneous properties.</title>
+
+							<table>
+									<tr>
+										<th>Parameter</th>
+										<th>Required</th>
+										<th>Options</th>
+										<th>Default</th>
+										<th>Description</th>
+								 </tr>
+								 <tr>
+										<td>additional.log.manager.classes</td>
+										<td>N</td>
+										<td></td>
+										<td></td>
+										<td>Comma delimited list of classes that implement LogManager interface.  This can be used to allow Admin4J to
+										    support additional logging frameworks.</td>
+								 </tr>
+								 <tr>
+										<td>hotspot.sleep.interval.millis</td>
+										<td>N</td>
+										<td></td>
+										<td>30000</td>
+										<td>Length of HotSpot sleep interval in milliseconds.</td>
+								 </tr>
+								 <tr>
+										<td>request.history.nbr.retained</td>
+										<td>N</td>
+										<td></td>
+										<td>5</td>
+										<td>The number of requests in the request history section for error logs and emails.</td>
+								 </tr>
+							</table>
+				</section>
+							
+		</section>
+	
+	</body>
+	<footer>
+		<legal>Copyright © 2010, by The Admin4J Project, all rights reserved.</legal>
+	</footer>
+</document>

@@ -1,0 +1,246 @@
+<?xml version="1.0"?>
+<web-app 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="admin4j-sample" 
+	version="2.5">
+	
+     <context-param>
+         <param-name>quartz:shutdown-on-unload</param-name>
+         <param-value>true</param-value>
+     </context-param>
+     <context-param>
+         <param-name>quartz:start-on-load</param-name>
+         <param-value>true</param-value>
+     </context-param>
+     
+     <listener>
+         <listener-class>
+             org.quartz.ee.servlet.QuartzInitializerListener
+         </listener-class>
+     </listener>
+	
+	<display-name>Admin4J Test Application</display-name>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>		   
+		<welcome-file>default.html</welcome-file>   	         
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- Starts thread contention monitoring.  Does *not* require a mapping as it doesn't display anything. -->
+	<servlet>
+		<servlet-name>Thread Monitor Startup Servlet </servlet-name>
+		<servlet-class>net.admin4j.ui.servlets.ThreadMonitorStartupServlet</servlet-class>
+	 	<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<!-- Starts memory usage monitoring.  Does *not* require a mapping as it doesn't display anything. -->
+	<servlet>
+		<servlet-name>Memory Monitor Startup Servlet </servlet-name>
+		<servlet-class>net.admin4j.ui.servlets.MemoryMonitorStartupServlet</servlet-class>
+	 	<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<!-- Displays summarized exceptions.  Typically mapped to '/admin4j/error' -->
+	<servlet>
+		<servlet-name>Exception Display Servlet</servlet-name>
+		<servlet-class>net.admin4j.ui.servlets.ExceptionDisplayServlet</servlet-class>
+		<init-param>
+			<param-name>exempted.exception.types</param-name>
+			<param-value>java.net.SocketException</param-value>
+		</init-param>
+	 	<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<!-- Displays SQL Statement performance.  Typically mapped to '/admin4j/sql' -->
+	<servlet>
+		<servlet-name>SQL Display Servlet</servlet-name>
+		<servlet-class>net.admin4j.ui.servlets.SqlDisplayServlet</servlet-class>
+	 	<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<!-- Displays file explorer.  Typically mapped to '/admin4j/file' -->
+	<servlet>
+		<servlet-name>File Explorer Servlet </servlet-name>
+		<servlet-class>net.admin4j.ui.servlets.FileExplorerServlet</servlet-class>
+		<init-param>
+			<param-name>restrict.to.base.dir</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>restrict.from.exec</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
+			<param-name>restrict.from.write</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	 	<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<!-- Displays JMX browser.  Typically mapped to '/admin4j/jmx' -->
+	<servlet>
+		<servlet-name>JMX Servlet</servlet-name>
+		<servlet-class>net.admin4j.ui.servlets.JmxServlet</servlet-class>
+	 	<load-on-startup>1</load-on-startup>
+	</servlet>
+ 
+ 	<!-- Displays logger explorer.  Typically mapped to '/admin4j/logLevel' -->
+	<servlet>
+		<servlet-name>LogLevel Servlet</servlet-name>
+		<servlet-class>net.admin4j.ui.servlets.LogLevelServlet</servlet-class>
+	 	<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<!-- Displays performance metrics display.  Typically mapped to '/admin4j/perf' -->
+	<servlet>
+		<servlet-name>Performance Display Servlet</servlet-name>
+		<servlet-class>net.admin4j.ui.servlets.PerformanceDisplayServlet</servlet-class>
+	 	<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>Hot Spot Display Servlet</servlet-name>
+		<servlet-class>net.admin4j.ui.servlets.HotSpotDisplayServlet</servlet-class>
+	 	<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>File Explorer Servlet</servlet-name>
+		<url-pattern>/admin4j/file</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>SQL Display Servlet</servlet-name>
+		<url-pattern>/admin4j/sql</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>JMX Servlet</servlet-name>
+		<url-pattern>/admin4j/jmx</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Exception Display Servlet</servlet-name>
+		<url-pattern>/admin4j/error</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>LogLevel Servlet</servlet-name>
+		<url-pattern>/admin4j/logLevel</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Performance Display Servlet</servlet-name>
+		<url-pattern>/admin4j/perf</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>Hot Spot Display Servlet</servlet-name>
+		<url-pattern>/admin4j/hotSpot</url-pattern>
+	</servlet-mapping>
+
+	<!-- Will track performance for all Http requests -->
+	<filter>
+		<filter-name>Performance Filter</filter-name>
+		<filter-class>
+			net.admin4j.ui.filters.PerformanceMonitoringFilter
+		</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>Performance Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	<!-- Will imprint server-side time for all Http requests with Http output. --> 
+	<filter>
+		<filter-name>Performance Timestamping Filter</filter-name>
+		<filter-class>
+			net.admin4j.ui.filters.PerformanceTimeStampingFilter
+		</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>Performance Timestamping Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- Will notify if alert thresholds are reached. -->
+	<filter>
+		<filter-name>Concurrent Usage Filter</filter-name>
+		<filter-class>
+			net.admin4j.ui.filters.ConcurrentUsageFilter
+		</filter-class>
+		<init-param>
+			<description>Specifies alert thresholds.</description>
+			<param-name>alert.levels</param-name>
+			<param-value>100,200,300</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>Concurrent Usage Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	<!-- Will notify administrators of errors incurred for Http requests -->
+	<filter>
+		<filter-name>Error Notification Filter</filter-name>
+		<filter-class>
+			net.admin4j.ui.filters.ErrorNotificationFilter
+		</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>Error Notification Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	<!-- Will log any errors received for Http requests  -->
+	<filter>
+		<filter-name>Error Logging Filter</filter-name>
+		<filter-class>
+			net.admin4j.ui.filters.ErrorLoggingFilter
+		</filter-class>
+		<init-param>
+			<description>Specifies logger name.</description>
+			<param-name>logger</param-name>
+			<param-value>admin4j.webapp</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>Error Logging Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- Will track Http request history  -->
+	<filter>
+		<filter-name>Request Tracking Filter</filter-name>
+		<filter-class>
+			net.admin4j.ui.filters.RequestTrackingFilter
+		</filter-class>
+		<init-param>
+			<description>Specifies the number of requests tracked.</description>
+			<param-name>nbr.requests.tracked</param-name>
+			<param-value>10</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>Request Tracking Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+
+</web-app>

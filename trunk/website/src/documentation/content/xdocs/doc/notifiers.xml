@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2002-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+	<header>
+		<title>Admin4J Notifiers</title>
+		<notice>Copyright © 2010, by The Admin4J Project, all rights reserved.</notice>
+	</header>
+	<body>
+	
+		<section>
+							<title>Admin4J Notifiers.</title>
+							
+							<p>An Admin4J notifier is the mechanism through which Admin4J 'notifies' administrators of
+							   detected problems and issues.  All notifiers implement interface net.admin4j.util.notify.Notifier.</p>
+							   
+							<section>
+									<title>Email Notification</title>
+									
+									<p>Email notification classes:</p>
+									<table>
+										<tr>
+												<td>net.admin4j.util.notify.HtmlEmailNotifier</td>
+												<td>Email with HTML format.</td>
+										</tr>
+										<tr>
+												<td>net.admin4j.util.notify.TextEmailNotifier</td>
+												<td>Email with Text format.</td>
+										</tr>
+										<tr>
+												<td>net.admin4j.util.notify.SmsTextEmailNotifier</td>
+												<td>Email with Text format limited to 70 characters.</td>
+										</tr>
+									</table>
+									
+									<p>Email notifier support the following properties, filter parameters, or servlet parameters:</p>
+									<table>
+											<tr>
+												<th>Parameter</th>
+												<th>Required</th>
+												<th>Default</th>
+												<th>Description</th>
+										 </tr>
+										 <tr>
+												<td>mail.server.host</td>
+												<td>Y</td>
+												<td>none.</td>
+												<td>For example 'mail.admin4j.net'.</td>					 
+										 </tr>
+										 <tr>
+												<td>from.email.address</td>
+												<td>Y</td>
+												<td>none.</td>
+												<td>For example 'appName@admin4j.net'.</td>					 
+										 </tr>
+										 <tr>
+												<td>to.email.address</td>
+												<td>Y</td>
+												<td>none.</td>
+												<td>For example 'App_Support@admin4j.net'.</td>					 
+										 </tr>
+										 <tr>
+												<td>allowed.servers</td>
+												<td>N</td>
+												<td>none.</td>
+												<td>Comma delimited list of servers that can send email.</td>					 
+										 </tr>
+									</table>
+							</section>
+							
+							<section>
+									<title>Log Notification</title>
+									
+									<p>The log notifier class is net.admin4j.util.notify.LogNotifier and currently
+									  supports no parameters.  Notification log entries are made to a logger of the
+									  same name.</p>
+							</section>
+		</section>
+	
+	</body>
+	<footer>
+		<legal>Copyright © 2010, by The Admin4J Project, all rights reserved.</legal>
+	</footer>
+</document>

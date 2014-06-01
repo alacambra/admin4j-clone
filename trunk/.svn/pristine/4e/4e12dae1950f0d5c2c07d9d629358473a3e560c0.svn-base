@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<web-app 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="admin4j-sample" 
+	version="2.5">
+	
+     <context-param>
+         <param-name>quartz:shutdown-on-unload</param-name>
+         <param-value>true</param-value>
+     </context-param>
+     <context-param>
+         <param-name>quartz:start-on-load</param-name>
+         <param-value>true</param-value>
+     </context-param>
+     
+     <listener>
+         <listener-class>
+             org.quartz.ee.servlet.QuartzInitializerListener
+         </listener-class>
+     </listener>
+	
+	<display-name>Admin4J Test Application</display-name>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>		   
+		<welcome-file>default.html</welcome-file>   	         
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- This will start up all Admin4J Servlets with standard defaults.  -->
+	<servlet>
+		<servlet-name>Admin4J Index Servlet</servlet-name>
+		<servlet-class>net.admin4j.ui.servlets.Admin4JHomePageServlet</servlet-class>
+	 	<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Admin4J Index Servlet</servlet-name>
+		<url-pattern>/admin4j/index</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Admin4J Index Servlet</servlet-name>
+		<url-pattern>/admin4j/index/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- will ensure that standard Admin4J filters are invoked in the proper order. -->	
+	<filter>
+		<filter-name>Admin4J Standard Filter</filter-name>
+		<filter-class>
+			net.admin4j.ui.filters.Admin4JStandardFilter
+		</filter-class>
+		<init-param>
+			<description>If true, includes a server-side timestamp in all returned html.</description>
+			<param-name>include.serverside.timestamp</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>Admin4J Standard Filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+
+</web-app>

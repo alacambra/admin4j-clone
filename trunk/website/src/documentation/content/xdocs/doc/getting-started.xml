@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2002-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+	<header>
+		<title>Getting Started</title>
+		<notice>Copyright © 2010, by The Admin4J Project, all rights reserved.</notice>
+	</header>
+	<body>
+	
+		<section>
+					<title>System Requirements</title>
+					<p>Admin4J requires the following software to run:</p>
+					<ul>
+									<li>Java JDK V1.5 or later</li>
+									<li>Slf4J 1.5 or later.</li>
+									<li>Freemarker 2.0 or later.</li>
+					</ul>
+		</section>
+				
+		<section>
+					<title>Sample Web Application</title>
+
+					<p>Admin4J comes with a sample application preconfigured with all of these utilities.</p>
+		</section>
+		
+		<section>
+			<title>Configuring Admin4J</title>
+			<p>Configuration of Admin4J occurs in two places:</p>
+			<ul>
+					<li>admin4j.properties file</li>
+					<li>web.xml</li>
+			</ul>
+
+			<section>
+				<title>Specifying configuration properties</title>
+				<p>Configuration properties can be specified in two ways:</p>
+				<ul>
+						<li>By setting system property 'admin4j.configuration.file' equal to a properties file name containing the admin4j configuration.</li>
+						<li>Placing a file called 'admin4j.properties' in the classpath.</li>
+				</ul>
+				<p>If both the system property is specified and an admin4j.properties file is placed in the classpath, the system property takes precedence.</p>
+
+				<p>Note that all property values can refer to system property settings using the syntax ${variable-name}.  For example, if you set the exception info file 
+				location to '${user.dir}/admin4j.sample.webapp.exceptionInfo.xml', the value of '${user.dir} will evaluate to the user.dir System property.</p>
+
+				<p>An abbreviated list of configuration properties needed by most users is listed below.  A complete reference for available
+				  configuration properties can be found <a class="fork" href="configuration-reference.html">here</a></p>
+				<table>
+					<tr>
+						<th>Property</th>
+						<th>Required</th>
+						<th>Options</th>
+						<th>Default</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td>exception.info.storage.format</td>
+						<td>N</td>
+						<td>xml</td>
+						<td></td>
+						<td>Specifies the format used to store tracked exceptions and exception statistics.</td>
+					</tr>
+					<tr>
+							<td>exception.info.xml.file</td>
+							<td>N</td>
+							<td></td>
+							<td>null</td>
+							<td>Specifies a fully-qualified or relative file location for exception tracking information.</td>
+					</tr>
+					<tr>
+							<td>performance.info.storage.format</td>
+							<td>N</td>
+							<td>xml</td>
+							<td></td>
+							<td>Specifies the format used to store performance metric information.</td>
+					</tr>
+					<tr>
+							<td>performance.info.xml.file</td>
+							<td>N</td>
+							<td></td>
+							<td>null</td>
+							<td>Specifies a fully-qualified or relative file location for performance metric information.</td>
+					</tr>
+					<tr>
+							<td>default.notifier.class</td>
+							<td>N</td>
+							<td>Any class implementing net.admin4j.util.notify.Notifier</td>
+							<td>null</td>
+							<td>Specifies the default notifier used for all admin4j notifications.  You can always override the default for Admin4J servlets and filters in the file web.xml.</td>
+					</tr>
+				 </table>
+
+				 <p>All Admin4J Email Notifiers support the following properties:</p>
+				 <table>
+					<tr>
+						<th>Property</th>
+						<th>Required</th>
+						<th>Description</th>
+					 </tr>
+					 <tr>
+						<td>default.notifier.mail.server.host</td>
+						<td>Y if default.notifier.class specifies an Admin4J Email Notifier</td>
+						<td>Specifies the hostname for your email server.</td>
+					</tr>
+					<tr>
+						<td>default.notifier.from.email.address</td>
+						<td>Y if default.notifier.class specifies an Admin4J Email Notifier</td>
+						<td>Specifies the email address from which all notifications will be received.</td>
+					</tr>
+					<tr>
+						<td>default.notifier.to.email.address</td>
+						<td>Y if default.notifier.class specifies an Admin4J Email Notifier</td>
+						<td>Specifies the email address to which all notifications will be received.</td>
+					</tr>
+				 </table>
+
+				 <p>Sample admin4j.properties file:</p>
+				 <source>
+######################################################333
+#
+#	admin4j.properties sample
+#
+
+exception.info.storage.format=xml
+exception.info.xml.file=${user.dir}/admin4j.sample.webapp.exceptionInfo.xml
+performance.info.storage.format=xml
+performance.info.xml.file=${user.dir}/admin4j.sample.webapp.performanceInfo.xml
+
+default.notifier.class=net.admin4j.util.notify.HtmlEmailNotifier
+default.notifier.mail.server.host=localhost
+default.notifier.from.email.address=test@admin4j.net
+default.notifier.to.email.address=test@localhost
+					 </source>
+				</section>
+				
+				<section>
+						<title>web.xml changes</title>
+						
+						<section>
+									<title>Filter definition and mapping</title>
+									
+									<p>Define the following Servlet Filter and filter mapping.</p>
+				 					<source><![CDATA[
+<filter>
+	<filter-name>Admin4J Standard Filter</filter-name>
+	<filter-class>
+		net.admin4j.ui.filters.Admin4JStandardFilter
+	</filter-class>
+</filter>
+
+<filter-mapping>
+	<filter-name>Admin4J Standard Filter</filter-name>
+	<url-pattern>/*</url-pattern>
+</filter-mapping>
+				 					]]></source>
+						</section>
+						
+						<section>
+									<title>Servlet definition and mapping</title>
+
+									<p>Define the following Servlet and servlet mappings.</p>
+									<source><![CDATA[
+<servlet>
+	<servlet-name>Admin4J Index Servlet</servlet-name>
+	<servlet-class>net.admin4j.ui.servlets.Admin4JHomePageServlet</servlet-class>
+	<load-on-startup>1</load-on-startup>
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>Admin4J Index Servlet</servlet-name>
+	<url-pattern>/admin4j/index</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+	<servlet-name>Admin4J Index Servlet</servlet-name>
+	<url-pattern>/admin4j/index/*</url-pattern>
+</servlet-mapping>
+									]]></source>
+						</section>
+				</section>
+					
+		</section>
+		
+		<section>
+					<title>How to use Admin4J</title>
+			<p>The following items were installed if you followed the instructions above:</p>
+			<table>
+					<tr>
+							<th>Feature</th>
+							<th>Description</th>
+					</tr>
+					<tr>
+							<td>The Admin4J Home Page</td>
+							<td>Contains a link to all other Admin4J pages installed by default.</td>
+					</tr>
+					<tr>
+							<td>Exception Summary page and Error Notification features</td>
+							<td>Display the Exception Summary page and get notifications for web application errors as described 
+							    in the <a href="tracking-exceptions.html">Exception Management</a> section.</td>
+					</tr>
+					<tr>
+							<td>Thread contention monitoring and notification features</td>
+							<td>Receive thread contention alerts as described in the <a href="thread-contention.html">Thread Contention</a> section.</td>
+					</tr>
+					<tr>
+							<td>Memory monitor and low availability notification features</td>
+							<td>Receive low memory availability alerts as described in the <a href="memory.html">Memory issues</a> section.</td>
+					</tr>
+					<tr>
+							<td>Performance Tracking features</td>
+							<td>track performance for all web application pages and display performance statistics as described in 
+							    the <a href="performance.html">Performance Tracking</a> section.</td>
+					</tr>
+					<tr>
+							<td>HotSpot</td>
+							<td>Identify where the "hot spots" in our applications are as described in the <a href="hotSpot.html">HotSpot</a> section.</td>
+					</tr>
+					<tr>
+							<td>Logger management features</td>
+							<td>Manipulate log level settings at runtime as described in the <a href="log-management.html">Logger Management</a> section.</td>
+					</tr>
+					<tr>
+							<td>File Explorer features</td>
+							<td>Browse you containers underlyinf file system as described in the <a href="file-explorer.html">File Explorer</a> section.</td>
+					</tr>
+					<tr>
+							<td>JMX Browsing features</td>
+							<td>Obtain all published JMX information even if you haven't exposed a JMX port for remote consoles as 
+							    described in the <a href="file-explorer.html">JMX Explorer</a> section.</td>
+					</tr>
+			</table>
+			
+			<p>If you installed the home page servlet mappings as described above, you can surf to the admin4j home page, which looks like the following:</p>
+			<figure src="home-page-fullsize.JPG" alt="Admin4J Home Page" id="home-page-shot" width="960" height="527"/>
+
+		</section>
+	
+	</body>
+	<footer>
+		<legal>Copyright © 2010, by The Admin4J Project, all rights reserved.</legal>
+	</footer>
+</document>

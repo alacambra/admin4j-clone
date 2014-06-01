@@ -1,0 +1,22 @@
+#### Adds Admin4J performance Monitoring to your Quartz Batch Jobs
+org.quartz.jobListener.Admin4JPerformanceMonitor.class = net.admin4j.timer.QuartzPerformanceMonitoringJobListener
+####
+
+org.quartz.scheduler.instanceName = MyScheduler
+org.quartz.scheduler.instanceId = 1
+org.quartz.scheduler.rmi.export = false
+org.quartz.scheduler.rmi.proxy = false
+
+org.quartz.threadPool.class = org.quartz.simpl.SimpleThreadPool
+org.quartz.threadPool.threadCount = 3
+
+org.quartz.jobStore.class = org.quartz.simpl.RAMJobStore
+
+org.quartz.plugin.jobInitializer.class = org.quartz.plugins.xml.XMLSchedulingDataProcessorPlugin
+org.quartz.plugin.jobInitializer.fileNames = quartz-jobs.xml
+org.quartz.plugin.jobInitializer.failOnFileNotFound = true
+org.quartz.plugin.jobInitializer.scanInterval = 10
+org.quartz.plugin.jobInitializer.wrapInUserTransaction = false
+
+
+

@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2002-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+	<header>
+		<title>Performance</title>
+		<notice>Copyright © 2010, by The Admin4J Project, all rights reserved.</notice>
+	</header>
+	<body>
+	
+		<section>
+							<title>Tracking and displaying performance metrics</title>
+							
+							<p>Admin4J makes tracking performance easy.  Optionally, adminsitrators can be notified
+							  when performance of an Http request exceeds a defined threshold.</p>
+		</section>
+		
+		<section>
+						<title>Screen Shots</title>
+						<figure src="performance-stats-fullsize.JPG" alt="Admin4J Performance Statistics shot" id="performance-statistics-shot" width="960" height="527"/>
+		</section>
+							
+		<section>
+				<title>Installing Performance Tracking</title>
+				
+				<note>If you followed the installation procedure detailed in the <a href="getting-started.html">Getting Started</a>
+							section, there is no need to install the Performance Metrics page separately.  Only follow this procedure if you're
+						 	not using the Admin4J Home Page Servlet.</note>
+
+				<p>Add the following filter and filter mapping to your applications web.xml:</p>
+											<source><![CDATA[
+<filter>
+<filter-name>Performance Filter</filter-name>
+<filter-class>
+net.admin4j.ui.filters.PerformanceMonitoringFilter
+</filter-class>
+</filter>
+
+<filter-mapping>
+<filter-name>Performance Filter</filter-name>
+<url-pattern>/*</url-pattern>
+</filter-mapping>
+				]]></source>
+
+				<p>The following configuration parameters are supported for the performance tracking filter.</p>
+					 <table>
+						<tr>
+							<th>Parameter</th>
+							<th>Required</th>
+							<th>Default</th>
+							<th>Description</th>
+					 </tr>
+					 <tr>
+							<td>notification.threshold.in.millis</td>
+							<td>N</td>
+							<td>none.</td>
+							<td>If set, a notification will be issued 
+								 should a page take longer than the specified number of milliseconds.  
+								 For this option to work, values must be provided for notifier</td>					 
+					 </tr>
+					 <tr>
+							<td>notifier</td>
+							<td>N</td>
+							<td>Defaults to default.notifier.class value in the Admin4J configuration.</td>
+							<td>Handles admin notification.  See documentation for the Notifier you're using
+									for any additional configuration requirements. See Admin4J Notifiers section
+									for more detail.</td>					 
+					 </tr>
+					</table>
+		
+
+				<section>
+						<title>Tracking performance for items other than Http requests</title>
+
+						<p>Performance can be monitored for batch jobs or other transactions that aren't 
+							Http requests.  In fact, the Performance Monitoring filter referenced above
+							is a good example.  You simply start a performance monitor at the beginning and
+							stop the monitor at the end of the work to be measured.  An example follows:</p>
+
+						<source><![CDATA[
+		import net.admin4j.timer.TaskTimer;
+		import net.admin4j.timer.TaskTimerFactory;
+
+		//  At the start of section to be monitored for performance.
+		TaskTimer perfMonitor = TaskTimerFactory.start("My Label");
+
+		//  At the end of the section to be monitored -- preferably in a 'finally' block.
+		perfMonitor.stop();
+						]]></source>
+
+				</section>
+
+				<section>
+								<title>Tracking performance for Quartz Batch Jobs</title>
+
+								<p>Admin4J provides a Quartz Job Listener that can monitor performance for Quartz batch jobs.
+									 To install, just add the following line to your quartz.properties file:</p>
+
+								<source><![CDATA[
+		org.quartz.jobListener.Admin4JPerformanceMonitor.class=net.admin4j.timer.QuartzPerformanceMonitoringJobListener
+								]]></source>
+
+				</section>
+
+				<section>
+						<title>Installing Performance Metrics Display</title>
+
+						<p>Add the following servlet and servlet mapping to your applications web.xml:</p>
+													<source><![CDATA[
+		<servlet>
+		<servlet-name>Performance Display Servlet</servlet-name>
+		<servlet-class>net.admin4j.ui.servlets.PerformanceDisplayServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+		</servlet>
+
+		<servlet-mapping>
+		<servlet-name>Performance Display Servlet</servlet-name>
+		<url-pattern>/admin4j/perf</url-pattern>
+		</servlet-mapping>
+						]]></source>
+
+						<note>You might want to define a security constraint on the mapping to this servlet if
+								 you only want to provide display access to administrators and support personnel.</note>
+				</section>
+		</section>
+	
+	</body>
+	<footer>
+		<legal>Copyright © 2010, by The Admin4J Project, all rights reserved.</legal>
+	</footer>
+</document>

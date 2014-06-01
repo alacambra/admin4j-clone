@@ -1,0 +1,36 @@
+#######################################
+# This property file governs build process
+#######################################
+
+#######################################
+# Base Locations
+#######################################
+
+project.name=admin4j
+version=1.0.3-rc1
+sample.name=admin4jSample
+
+base.dir=.
+dist.dir=${base.dir}/dist
+dist.expanded.dir=${dist.dir}/${project.name}-${version}
+javadoc.dir=${base.dir}/javadoc
+bin.dir=${base.dir}/bin
+src.dir=${base.dir}/src
+test-src.dir=${base.dir}/test
+jdbc30.dir=${base.dir}/jdbc30
+jdbc40.dir=${base.dir}/jdbc40
+jdbc42.dir=${base.dir}/jdbc42
+ftl.dir=${base.dir}/ftl
+build.dir=${base.dir}/build
+instrument-build.dir=${base.dir}/instrument-build
+test-build.dir=${base.dir}/test-build
+
+build.lib.dir=${base.dir}/build-lib
+dev.lib.dir=${base.dir}/dev-lib
+lib.src.dir=${base.dir}/lib-src
+temp.src.dir=${base.dir}/temp-src
+runtime.lib.dir=${base.dir}/lib
+webroot.dir=${base.dir}/testWebApp
+
+
+

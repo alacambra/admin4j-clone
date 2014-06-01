@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!--
+  Copyright 2002-2004 The Apache Software Foundation
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<status>
+
+  <developers>
+    <person name="Derek C. Ashmore"      email="dashmore@dvt.com"      id="DCA" />
+    <person name="Mike J. Lyons"      email="mlyons49@yahoo.com"      id="MJL" />
+  </developers>
+  
+  <contexts>
+	   <context id="code" title="Changes to the Code Base"/>
+	   <context id="docs" title="Changes to Documentation"/>
+  </contexts>
+
+  <changes>
+    <release version="1.0.1-RC1" date="2012-01-26">
+    				<action dev="DCA" type="add" context="code">Upgraded Commons Lang to V3.1</action>
+    				<action dev="DCA" type="fix" context="code">Fixed bug preventing multiple HotSpot servlets from being registered</action>
+    </release>
+    
+    <release version="1.0-GA" date="2012-01-26" />
+    
+    <release version="1.0-RC4" date="2011-02-18">
+				<action dev="DCA" type="add" context="code">Added millisecond notation to performance metrics display page</action>
+				<action dev="DCA" type="fix" context="code">Fixed bug when reading previous version of exception or performance metrics</action>
+    </release>
+     <release version="1.0-RC3" date="2010-09-06">
+				<action dev="DCA" type="add" context="docs">More convenient installation procedure with Admin4J Index page</action>
+				<action dev="DCA" type="add" context="docs">Ability to configure all options via admin4j.properties</action>
+				<action dev="DCA" type="fix" context="code">Fixed bug with HotSpot Nbr of vlocked executions display</action>
+				<action dev="MJL" type="fix" context="code">File Explorer display enhancements</action>
+    </release>
+    <release version="1.0-RC2" date="2010-08-24">
+				<action dev="DCA" type="fix" context="code">3044351 Incorrect Start Time on Memory Notification</action>
+				<action dev="DCA" type="add" context="code">Hot Spot Utility</action>
+				<action dev="DCA" type="update" context="docs">Numerous documentation and site enhancements</action>
+				<action dev="MJL" type="fix" context="code">Servlet display enhancements</action>
+    </release>
+    <release version="1.0-RC1" date="2010-08-08">
+			<action dev="DCA" type="add" context="code">Initial Release</action>
+    </release>   
+  </changes>
+  
+  <todo>
+	    <!-- 'actions' can have priorities 'high', 'medium' or 'low' -->
+	    <actions priority="medium">
+				      <action context="docs" dev="open">
+				        Provide sample memory alert
+				      </action>
+	    </actions>
+	    
+	    <actions priority="medium">
+							<action context="docs" dev="open">
+								Provide sample thread contention alert
+							</action>
+	    </actions>
+	    
+	    <actions priority="low">
+	      <action context="docs" dev="open">
+	        Document the Performance Timestamping Filter
+	      </action>
+	    </actions>
+	  </todo>
+
+
+</status>
